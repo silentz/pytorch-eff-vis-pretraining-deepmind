@@ -1,0 +1,9 @@
+checkpoints/jax/*
+checkpoints/torch/*
+!checkpoints/jax/.gitkeep
+!checkpoints/torch/.gitkeep
+
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
