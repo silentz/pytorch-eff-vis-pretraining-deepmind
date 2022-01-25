@@ -1,0 +1,12 @@
+absl-py==1.0.0
+dm-haiku==0.0.5
+flatbuffers==2.0
+jax==0.2.27
+jaxlib==0.1.75
+jmp==0.0.2
+numpy==1.22.1
+opt-einsum==3.3.0
+scipy==1.7.3
+six==1.16.0
+tabulate==0.8.9
+typing_extensions==4.0.1
