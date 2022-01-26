@@ -1,7 +1,9 @@
 checkpoints/jax/*
 checkpoints/torch/*
+checkpoints/torch_raw/*
 !checkpoints/jax/.gitkeep
 !checkpoints/torch/.gitkeep
+!checkpoints/torch_raw/.gitkeep
 
 __pycache__/
 *.pyc
