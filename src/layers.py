@@ -21,7 +21,7 @@ class ResBlock(nn.Module):
                     kernel_size=1,
                     stride=stride,
                     bias=False,
-                    padding='same',
+                    padding=0,
                 )
 
             self.shortcut_batchnorm = nn.BatchNorm2d(
@@ -33,12 +33,12 @@ class ResBlock(nn.Module):
         channels_div = 4 if bottleneck else 1
 
         self.conv_0 = nn.Conv2d(
-                in_channels=out_channels,
+                in_channels=in_channels,
                 out_channels=out_channels // channels_div,
                 kernel_size=1 if bottleneck else 3,
                 stride=1 if bottleneck else stride,
                 bias=False,
-                padding='same',
+                padding='same' if bottleneck else 1,
             )
 
         self.batchnorm_0 = nn.BatchNorm2d(
@@ -53,7 +53,7 @@ class ResBlock(nn.Module):
                 kernel_size=3,
                 stride=stride if bottleneck else 1,
                 bias=False,
-                padding='same',
+                padding=1,
             )
 
         self.batchnorm_1 = nn.BatchNorm2d(
@@ -69,7 +69,7 @@ class ResBlock(nn.Module):
                     kernel_size=1,
                     stride=1,
                     bias=False,
-                    padding='same',
+                    padding=0,
                 )
 
             self.batchnorm_2 = nn.BatchNorm2d(
@@ -118,7 +118,7 @@ class ResBlockGroup(nn.Module):
         for idx in range(num_blocks):
             block_name = 'block_{}'.format(idx)
             blocks[block_name] = ResBlock(
-                    in_channels=in_channels,
+                    in_channels=in_channels if idx == 0 else out_channels,
                     out_channels=out_channels,
                     stride=(1 if idx else stride),
                     use_projection=(idx == 0 and use_projection),
