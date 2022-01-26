@@ -1,17 +1,14 @@
 import numpy as np
 import torch
 
-np_ckpt = np.load('./checkpoints/jax/resnet50.npy', allow_pickle=True).item()
 
-params = 0
-non_params = 0
-
+np_ckpt = np.load('./checkpoints/jax/resnet200.npy', allow_pickle=True).item()
 data = dict()
+
 
 for key, value in np_ckpt.items():
     for kkey, vvalue in value.items():
         if kkey == 'hidden':
-            non_params += vvalue.size
             continue
 
         if kkey == 'w':
@@ -22,6 +19,7 @@ for key, value in np_ckpt.items():
             kkey = 'weight'
 
         total_key = key.replace('res_net50/~/', '')
+        total_key = key.replace('res_net200/~/', '')
         total_key = total_key.replace('block_', 'blocks.block_')
         total_key = total_key.replace('block_group_', 'block_groups.block_group_')
         total_key = total_key.replace('/~/', '.')
@@ -39,7 +37,6 @@ for key, value in np_ckpt.items():
         else:
             total_key += '.' + kkey
 
-
         if '.norm_' in total_key:
             total_key = total_key.replace('.norm_', '.batchnorm_')
 
@@ -47,40 +44,39 @@ for key, value in np_ckpt.items():
             total_key = total_key.replace('_norm.', '_batchnorm.')
 
         if total_key.startswith('predictor'):
-            non_params += vvalue.size
             continue
 
         if total_key.startswith('projector'):
-            non_params += vvalue.size
             continue
 
         if total_key.startswith('classifier'):
-            non_params += vvalue.size
             continue
 
-        params += vvalue.size
         data[total_key] = vvalue.size
 
 
-torch_ckpt = torch.load('./checkpoints/torch/resnet50.ckpt')
+
+torch_ckpt = torch.load('./checkpoints/torch/resnet200.ckpt')
 torch_params = 0
+jax_params = 0
+
 
 for key, value in torch_ckpt.items():
-    torch_params += value.numel()
-
     if key not in data:
         print('KEY NOT IN DATA:', key)
         continue
 
-    num = data[key]
-    if num != value.numel():
-        print('KEY SHAPE NOT EQ', key, num, value.numel())
+    torch_params += value.numel()
+    jax_params += data[key]
+
+    if data[key] != value.numel():
+        print('KEY SHAPE NOT EQ', key, data[key], value.numel())
 
     del data[key]
 
 for key in data:
-    print('KEY BB', key)
+    print('KEY NEEDLESS', key)
 
 
-print('Jax:', params)
+print('Jax:', jax_params)
 print('Torch:', torch_params)
