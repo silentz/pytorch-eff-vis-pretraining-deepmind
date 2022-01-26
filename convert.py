@@ -68,7 +68,7 @@ def map_torch_weights(torch_ckpt, jax_ckpt):
         if key not in jax_ckpt:
             raise ValueError(f'key not in jax ckpt: {key}')
 
-        if torch_ckpt[key].numel() != jax_ckpt[key].size:
+        if torch_ckpt[key].shape != jax_ckpt[key].shape:
             raise ValueError(f'tensor sizes do not match: {key}')
 
         torch_ckpt[key] = torch.from_numpy(jax_ckpt[key])
