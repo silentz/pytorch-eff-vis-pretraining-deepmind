@@ -1,5 +1,5 @@
 import torch
-from src.resnet import ResNet50, ResNet200
+from pytorch_eff_vis_pretraining import ResNet50, ResNet200
 
 
 if __name__ == '__main__':
