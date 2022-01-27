@@ -54,7 +54,7 @@ def make_jax_weights(checkpoint):
                 continue
 
             # reshape vvalue
-            if 'conv' in total_key:
+            if 'conv' in total_key and 'weight' in total_key:
                 vvalue = np.transpose(vvalue, (3, 2, 0, 1))
 
             if 'batchnorm' in total_key and 'running_mean' in total_key:
@@ -85,8 +85,6 @@ def map_torch_weights(torch_ckpt, jax_ckpt):
             raise ValueError(f'key not in jax ckpt: {key}')
 
         if torch_ckpt[key].shape != jax_ckpt[key].shape:
-            print(torch_ckpt[key].shape)
-            print(jax_ckpt[key].shape)
             raise ValueError(f'tensor sizes do not match: {key}')
 
         torch_ckpt[key] = torch.from_numpy(jax_ckpt[key])
