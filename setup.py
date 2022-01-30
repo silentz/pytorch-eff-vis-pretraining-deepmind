@@ -1,12 +1,10 @@
-from setuptools import setup, find_packages
-
+from setuptools import setup
 
 description = """Pytorch version of resnet50 and resnet200 checkpoints of
 "Efficient Visual Pretraining with Contrastive Detection" model"""
 
-
 setup(
-    name="pytorch_eff_vis_pretraining/download.py",
+    name="pytorch_eff_vis_pretraining",
     version="1.0.0",
     author="Pershin Maxim",
     author_email="mepershin@example.com",
@@ -21,7 +19,10 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "src"},
-    packages=find_packages(where="src"),
+    packages=['pytorch_eff_vis_pretraining'],
+    install_requires=[
+       "torch >= 1.8",
+       "tqdm",
+    ],
     python_requires=">=3.8",
 )
