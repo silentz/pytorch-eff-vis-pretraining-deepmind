@@ -5,7 +5,7 @@ description = """Pytorch version of resnet50 and resnet200 checkpoints of
 
 setup(
     name="pytorch_eff_vis_pretraining",
-    version="1.0.0",
+    version="1.0.1",
     author="Pershin Maxim",
     author_email="mepershin@example.com",
     description=description,
@@ -21,8 +21,8 @@ setup(
     ],
     packages=['pytorch_eff_vis_pretraining'],
     install_requires=[
-       "torch >= 1.8",
        "tqdm",
+       "torch>=1.8",
     ],
     python_requires=">=3.8",
 )
