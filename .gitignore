@@ -10,3 +10,4 @@ __pycache__/
 .DS_Store
 .ipynb_checkpoints/
 dist/
+pytorch_eff_vis_pretraining.egg-info/*
